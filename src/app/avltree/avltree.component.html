@@ -1,0 +1,15 @@
+<div>
+  <div>
+    <h4>ARBOL DE BUSQUEDA BINARIO</h4>
+  </div>
+  <div>
+    <input type="number" [(ngModel)]="numNodo" (ngModelChange)="numNodo = $event">
+    <button (click)="generateNode()">Insertar</button>
+    <button (click)="searchNode()">Buscar</button>
+    <button (click)="deleteNode()">Eliminar</button>
+    <button (click)="randomNode()">Numero Random</button>
+  </div>
+  <div>
+    <canvas style="border: 1px solid;" #canvas></canvas>
+  </div>
+</div>
