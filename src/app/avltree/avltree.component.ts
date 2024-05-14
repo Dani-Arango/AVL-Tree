@@ -14,11 +14,15 @@ export class AVLtreeComponent {
   canvasH = 600;
   canvasW = 1200;
   tree?: AVLtree;
+  // isPhone = false;
   circleRadius = 20;
   canvas?: HTMLCanvasElement;
   context?: CanvasRenderingContext2D;
   @ViewChild('canvas', { static: true }) myCanvas!: ElementRef;
   constructor(private readonly router: Router) {
+    // if (window.screen.width <= 768) {
+    //   this.isPhone = true;
+    // }
   }
 
   generateNode(numNodo: number = this.numNodo): void {
