@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
@@ -19,7 +18,7 @@ export class AVLtreeComponent {
   context?: CanvasRenderingContext2D;
   @ViewChild('canvas', { static: true }) myCanvas!: ElementRef;
 
-  constructor(private readonly router: Router) {
+  constructor() {
   }
 
   generateNode(numNodo: number = this.numNodo): void {
@@ -114,10 +113,6 @@ export class AVLtreeComponent {
       this.context.fillText(weight.toString(), x + 15, y - 15)
       this.context.stroke();
     }
-  }
-
-  redirect(): void {
-    this.router.navigateByUrl('');
   }
 }
 
@@ -262,7 +257,10 @@ class AVLtree {
         newNode.isDeleted = true;
         node.value = newNode.value;
 
-        if (newNode.right) this.updateNode(newNode, newNode.right);
+        if (newNode.right){
+          newNode.isDeleted = false;
+          this.updateNode(newNode, newNode.right);
+        }
       }
     }
 
