@@ -12,7 +12,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 export class AVLtreeComponent {
   numNodo = 10;
   canvasH = 600;
-  canvasW = 1400;
+  canvasW = 1200;
   tree?: AVLtree;
   circleRadius = 20;
   canvas?: HTMLCanvasElement;
