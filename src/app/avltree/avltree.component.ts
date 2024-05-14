@@ -14,15 +14,12 @@ export class AVLtreeComponent {
   canvasH = 600;
   canvasW = 1200;
   tree?: AVLtree;
-  // isPhone = false;
   circleRadius = 20;
   canvas?: HTMLCanvasElement;
   context?: CanvasRenderingContext2D;
   @ViewChild('canvas', { static: true }) myCanvas!: ElementRef;
+
   constructor(private readonly router: Router) {
-    // if (window.screen.width <= 768) {
-    //   this.isPhone = true;
-    // }
   }
 
   generateNode(numNodo: number = this.numNodo): void {
@@ -35,7 +32,12 @@ export class AVLtreeComponent {
 
   searchNode(): void {
     if (this.tree && !this.tree.isDeleted) {
-      this.drawCanvas(this.tree.searchNode(this.numNodo));
+      if(this.tree.searchNode(this.numNodo)){
+        alert('Nodo encontrado');
+      }
+      else{
+        alert('Nodo no encontrado');
+      }
     }
   }
 
@@ -50,10 +52,10 @@ export class AVLtreeComponent {
     this.generateNode(Math.ceil(Math.random() * 100));
   }
 
-  drawCanvas(nodeSearch?: AVLtree): void {
+  drawCanvas(): void {
     this.context!.clearRect(0, 0, this.canvasW, this.canvasH);
     const max = this.lengthBranchLonger(this.tree);
-    this.drawGraph(this.tree!, (max * 50) * 2, this.canvasW / 2, 50, nodeSearch);
+    this.drawGraph(this.tree!, (max * 50) * 2, this.canvasW / 2, 50);
   }
 
   ngOnInit(): void {
@@ -72,23 +74,21 @@ export class AVLtreeComponent {
     return 1 + Math.max(lenghtRight, lenghtLeft);
   }
 
-  drawGraph(node: AVLtree, max: number, x: number, y: number, nodeSearch?: AVLtree): void {
+  drawGraph(node: AVLtree, max: number, x: number, y: number): void {
     if (node.isDeleted) return;
 
-    if (node.value === nodeSearch?.value) this.context!.strokeStyle = 'green';
     this.drawCircle(x, y, node.value, node.weight);
-    this.context!.strokeStyle = 'black';
     if (node.right) {
       const xright = x + (max / 2);
       const yright = y + 50;
       if (!node.right.isDeleted) this.drawLine(x, y, xright, yright);
-      this.drawGraph(node.right, max / 2, xright, yright, nodeSearch);
+      this.drawGraph(node.right, max / 2, xright, yright);
     }
     if (node.left) {
       const xleft = x - (max / 2);
       const yleft = y + 50;
       if (!node.left.isDeleted) this.drawLine(x, y, xleft, yleft)
-      this.drawGraph(node.left, max / 2, xleft, yleft, nodeSearch);
+      this.drawGraph(node.left, max / 2, xleft, yleft);
     }
   }
 
@@ -97,7 +97,6 @@ export class AVLtreeComponent {
       this.context.beginPath();
       this.context.moveTo(x1, y1 + this.circleRadius);
       this.context.lineTo(x2, y2 - this.circleRadius);
-      this.context.strokeStyle = 'black';
       this.context.lineWidth = 2;
       this.context.stroke();
     }
