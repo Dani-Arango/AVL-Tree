@@ -60,7 +60,7 @@ canvas {
 
 .content {
   width: 100vw;
-  overflow: hidden;
+  overflow-y: hidden;
 }
 
 .containter-butttons {
