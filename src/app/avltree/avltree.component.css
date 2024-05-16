@@ -1,39 +1,50 @@
 div {
   text-align: center;
-  margin: 20px;
+  align-content: center;
 }
 
-*{
+* {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-h4 {
-  margin-bottom: 20px;
+.header {
+  width: 100vw;
+  height: 70px;
+  background-color: green;
+  color: white;
+  margin: 0;
 }
 
-input[type="number"] {
-  padding: 5px;
-  margin-right: 10px;
-  font-size: 16px;
-  width: 100px;
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: auto;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+input {
   border: 1px solid #ccc;
+}
+
+input, button{
+  padding: 7px 10px;
+  width: 125px;
+  font-size: 16px;
   border-radius: 4px;
 }
 
 button {
-  padding: 5px 10px;
-  margin-right: 5px;
-  font-size: 16px;
   background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #37813a;
 }
 
 button:focus {
@@ -43,43 +54,32 @@ button:focus {
 canvas {
   display: block;
   margin: 20px auto;
-  transform: scale(0.4);
-  transform-origin: top left;
+
+  width: 80vw;
+}
+
+.content {
+  width: 100vw;
+  overflow: hidden;
+}
+
+.containter-butttons {
+  display: inline-flex;
 }
 
 /* Ajuste para pantallas más grandes */
-@media (min-width: 600px) {
+@media (max-width: 700px) {
   canvas {
-    transform: scale(0.5);
+    width: 95vw;
   }
-}
 
-@media (min-width: 800px) {
-  canvas {
-    transform: scale(0.6);
+  input{
+    flex: 1 1 80%;
+    margin: 5px;
   }
-}
 
-@media (min-width: 1000px) {
-  canvas {
-    transform: scale(0.7);
-  }
-}
-
-@media (min-width: 1200px) {
-  canvas {
-    transform: scale(0.8);
-  }
-}
-
-@media (min-width: 1200px) {
-  canvas {
-    transform: scale(0.8);
-  }
-}
-
-@media (min-width: 1500px) {
-  canvas {
-    transform: scale(1);
+  button{
+    flex: 1 1 40%;
+    margin: 5px;
   }
 }

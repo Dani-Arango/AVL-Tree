@@ -10,7 +10,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 })
 export class AVLtreeComponent {
   numNodo = 10;
-  canvasH = 600;
+  canvasH = 500;
   canvasW = 1200;
   tree?: AVLtree;
   circleRadius = 20;
@@ -25,17 +25,19 @@ export class AVLtreeComponent {
     if (!this.tree || this.tree.isDeleted) {
       this.tree = new AVLtree(numNodo);
     }
-    else this.tree.addNode(this.tree, numNodo);
+    else{
+      this.tree.addNode(this.tree, numNodo);
+    }
     this.drawCanvas();
   }
 
   searchNode(): void {
     if (this.tree && !this.tree.isDeleted) {
       if(this.tree.searchNode(this.numNodo)){
-        alert('Nodo encontrado');
+        alert('Nodo encontrado.');
       }
       else{
-        alert('Nodo no encontrado');
+        alert('Nodo no encontrado.');
       }
     }
   }
@@ -62,6 +64,7 @@ export class AVLtreeComponent {
     this.context = this.canvas!.getContext('2d')!;
     this.canvas!.width = this.canvasW;
     this.canvas!.height = this.canvasH;
+    this.context.lineWidth = 0.5;
   }
 
   lengthBranchLonger(node?: AVLtree): number {
@@ -96,7 +99,6 @@ export class AVLtreeComponent {
       this.context.beginPath();
       this.context.moveTo(x1, y1 + this.circleRadius);
       this.context.lineTo(x2, y2 - this.circleRadius);
-      this.context.lineWidth = 2;
       this.context.stroke();
     }
   }
