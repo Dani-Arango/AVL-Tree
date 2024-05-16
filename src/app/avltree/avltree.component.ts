@@ -9,11 +9,11 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
   styleUrl: './avltree.component.css'
 })
 export class AVLtreeComponent {
-  numNodo = 10;
-  canvasH = 500;
-  canvasW = 1200;
   tree?: AVLtree;
-  circleRadius = 20;
+  numNodo: number = 10;
+  canvasH: number = 500;
+  canvasW: number = 1200;
+  circleRadius: number = 20;
   canvas?: HTMLCanvasElement;
   context?: CanvasRenderingContext2D;
   @ViewChild('canvas', { static: true }) myCanvas!: ElementRef;
@@ -21,39 +21,40 @@ export class AVLtreeComponent {
   constructor() {
   }
 
-  generateNode(numNodo: number = this.numNodo): void {
+  public generateNode(numNodo: number = this.numNodo): void {
+    if (numNodo === null) return;
     if (!this.tree || this.tree.isDeleted) {
       this.tree = new AVLtree(numNodo);
     }
-    else{
+    else {
       this.tree.addNode(this.tree, numNodo);
     }
     this.drawCanvas();
   }
 
-  searchNode(): void {
+  public searchNode(): void {
     if (this.tree && !this.tree.isDeleted) {
-      if(this.tree.searchNode(this.numNodo)){
+      if (this.tree.searchNode(this.numNodo)) {
         alert('Nodo encontrado.');
       }
-      else{
+      else {
         alert('Nodo no encontrado.');
       }
     }
   }
 
-  deleteNode(): void {
+  public deleteNode(): void {
     if (this.tree && !this.tree.isDeleted) {
       this.tree.deleteNode(this.numNodo);
     }
     this.drawCanvas();
   }
 
-  randomNode(): void {
+  public randomNode(): void {
     this.generateNode(Math.ceil(Math.random() * 100));
   }
 
-  drawCanvas(): void {
+  private drawCanvas(): void {
     this.context!.clearRect(0, 0, this.canvasW, this.canvasH);
     const max = this.lengthBranchLonger(this.tree);
     this.drawGraph(this.tree!, (max * 50) * 2, this.canvasW / 2, 50);
@@ -67,7 +68,7 @@ export class AVLtreeComponent {
     this.context.lineWidth = 0.5;
   }
 
-  lengthBranchLonger(node?: AVLtree): number {
+  private lengthBranchLonger(node?: AVLtree): number {
     if (!node || node.isDeleted) {
       return 0;
     }
@@ -76,7 +77,7 @@ export class AVLtreeComponent {
     return 1 + Math.max(lenghtRight, lenghtLeft);
   }
 
-  drawGraph(node: AVLtree, max: number, x: number, y: number): void {
+  private drawGraph(node: AVLtree, max: number, x: number, y: number): void {
     if (node.isDeleted) return;
 
     this.drawCircle(x, y, node.value, node.weight);
@@ -94,7 +95,7 @@ export class AVLtreeComponent {
     }
   }
 
-  drawLine(x1: number, y1: number, x2: number, y2: number): void {
+  private drawLine(x1: number, y1: number, x2: number, y2: number): void {
     if (this.context) {
       this.context.beginPath();
       this.context.moveTo(x1, y1 + this.circleRadius);
@@ -103,7 +104,7 @@ export class AVLtreeComponent {
     }
   }
 
-  drawCircle(x: number, y: number, text: number, weight: number): void {
+  private drawCircle(x: number, y: number, text: number, weight: number): void {
     if (this.context) {
       this.context.beginPath();
       this.context.arc(x, y, this.circleRadius, 0, 2 * Math.PI);
@@ -134,14 +135,14 @@ class AVLtree {
     this.isDeleted = false;
   }
 
-  isMinors(x: number, y: number): boolean { return x < y }
+  private isMinors(x: number, y: number): boolean { return x < y }
 
-  addNode(node: AVLtree, value: number): void {
+  public addNode(node: AVLtree, value: number): void {
     if (node.isMinors(value, node.value)) this.insertLeft(node, value);
     else this.insertRight(node, value);
   }
 
-  insertLeft(node: AVLtree, value: number): void {
+  private insertLeft(node: AVLtree, value: number): void {
     if (!node.left || node.left.isDeleted) {
       node.left = new AVLtree(value);
     }
@@ -151,7 +152,7 @@ class AVLtree {
     this.caseRotation(node);
   }
 
-  insertRight(node: AVLtree, value: number): void {
+  private insertRight(node: AVLtree, value: number): void {
     if (!node.right || node.right.isDeleted) {
       node.right = new AVLtree(value);
     }
@@ -161,17 +162,17 @@ class AVLtree {
     this.caseRotation(node);
   }
 
-  getWeight(node: AVLtree): number {
+  private getWeight(node: AVLtree): number {
     return this.calculateWeight(node.right) - this.calculateWeight(node.left);
   }
 
-  calculateWeight(node?: AVLtree, weight: number = 0): number {
+  private calculateWeight(node?: AVLtree, weight: number = 0): number {
     if (!node || node.isDeleted) return weight;
     const max = Math.max(this.calculateWeight(node.left), this.calculateWeight(node.right));
     return max + 1;
   }
 
-  caseRotation(node: AVLtree): void {
+  private caseRotation(node: AVLtree): void {
     if (node.weight < -1) {
       if (node.left!.weight < 0) {
         this.updateNode(node, this.rotateRight(node));
@@ -193,7 +194,7 @@ class AVLtree {
 
   }
 
-  rotateRight(node: AVLtree): AVLtree {
+  private rotateRight(node: AVLtree): AVLtree {
     const y = this.nodeCopy(node);
     const x = y.left!;
     const z = x.right;
@@ -205,7 +206,7 @@ class AVLtree {
     return x;
   }
 
-  rotateLeft(node: AVLtree): AVLtree {
+  private rotateLeft(node: AVLtree): AVLtree {
     const y = this.nodeCopy(node);
     const x = y.right!;
     const z = x.left;
@@ -217,18 +218,18 @@ class AVLtree {
     return x;
   }
 
-  updateNode(node: AVLtree, newNode: AVLtree): void {
+  private updateNode(node: AVLtree, newNode: AVLtree): void {
     node.value = newNode.value;
     node.left = newNode.left;
     node.right = newNode.right;
     node.weight = newNode.weight;
   }
 
-  nodeCopy(node: AVLtree): AVLtree {
+  private nodeCopy(node: AVLtree): AVLtree {
     return new AVLtree(node.value, node.left, node.right, node.weight)
   }
 
-  searchNode(value: number, node: AVLtree = this): AVLtree | undefined {
+  public searchNode(value: number, node: AVLtree = this): AVLtree | undefined {
     if (value === node.value && !node.isDeleted) return node;
 
     const nextNodo = value < node.value ? node.left : node.right;
@@ -237,7 +238,7 @@ class AVLtree {
     return this.searchNode(value, nextNodo);
   }
 
-  deleteNode(value: number): void {
+  public deleteNode(value: number): void {
     const node = this.searchNode(value);
     if (node) {
       let numChilds =
@@ -259,7 +260,7 @@ class AVLtree {
         newNode.isDeleted = true;
         node.value = newNode.value;
 
-        if (newNode.right){
+        if (newNode.right) {
           newNode.isDeleted = false;
           this.updateNode(newNode, newNode.right);
         }
@@ -269,7 +270,7 @@ class AVLtree {
     this.balanceTree(this);
   }
 
-  balanceTree(node: AVLtree): void {
+  private balanceTree(node: AVLtree): void {
     node.weight = this.getWeight(node);
     this.caseRotation(node);
 
@@ -281,7 +282,7 @@ class AVLtree {
     }
   }
 
-  getNodeLeft(node: AVLtree): AVLtree {
+  private getNodeLeft(node: AVLtree): AVLtree {
     if (!node.left || node.left.isDeleted) return node;
     return this.getNodeLeft(node.left);
   }

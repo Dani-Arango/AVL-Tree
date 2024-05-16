@@ -67,7 +67,6 @@ canvas {
   display: inline-flex;
 }
 
-/* Ajuste para pantallas más grandes */
 @media (max-width: 700px) {
   canvas {
     width: 95vw;
